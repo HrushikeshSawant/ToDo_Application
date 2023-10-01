@@ -1,5 +1,7 @@
 package com.hrushikesh.ToDo_Application.Service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,14 +12,19 @@ import com.hrushikesh.ToDo_Application.Repository.ToDoRepository;
 
 @Service
 public class ToDoService {
-	
+
 	@Autowired
 	ToDoRepository toDoRepository;
-	
-	public ResponseEntity<String> addTodo(ToDoEntity toDoEntity)
+
+	public ResponseEntity<String> addTodo(ToDoEntity toDoEntity) 
 	{
 		toDoRepository.save(toDoEntity);
-		return new ResponseEntity<>("ToDo Added!!", HttpStatus.CREATED) ;
+		return new ResponseEntity<>("ToDo Added!!", HttpStatus.CREATED);
+	}
+
+	public ResponseEntity<List<ToDoEntity>> viewTodo() 
+	{
+		return new ResponseEntity<>(toDoRepository.findAll(), HttpStatus.OK);
 	}
 
 }
