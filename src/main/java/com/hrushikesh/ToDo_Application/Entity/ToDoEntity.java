@@ -30,11 +30,20 @@ public class ToDoEntity {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ToDoEntity(String title, String description, List<ItemsEntity> content) {
+	public ToDoEntity(int id, String title, String description, List<ItemsEntity> content) {
 		super();
+		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.content = content;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getTitle() {
