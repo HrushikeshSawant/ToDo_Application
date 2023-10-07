@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -49,9 +50,15 @@ public class ToDoController {
 	}
 	
 	@PutMapping("add-todo-content/{id}")
-	public ResponseEntity<String> updateToDoEntiry(@PathVariable int id, @RequestBody ContentsEntity contentsEntity)
+	public ResponseEntity<String> addTodoContent(@PathVariable int id, @RequestBody ContentsEntity contentsEntity)
 	{
-		return toDoService.updateToDoEntiry(id, contentsEntity);
+		return toDoService.addTodoContent(id, contentsEntity);
+	}
+	
+	@PatchMapping("update-todo-content/{id}")
+	public ResponseEntity<String> updateTodoContent(@PathVariable int id, @RequestBody ContentsEntity contentsEntity)
+	{
+		return toDoService.updateTodoContent(id, contentsEntity);
 	}
 	
 }

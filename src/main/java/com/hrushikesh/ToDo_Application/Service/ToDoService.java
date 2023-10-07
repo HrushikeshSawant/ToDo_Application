@@ -69,7 +69,7 @@ public class ToDoService {
 		return new ResponseEntity<String>("ToDo updated!!", HttpStatus.OK);
 	}
 	
-	public ResponseEntity<String> updateToDoEntiry(int id, ContentsEntity contentsEntity) {
+	public ResponseEntity<String> addTodoContent(int id, ContentsEntity contentsEntity) {
 
 		ToDoEntity existingToDo = toDoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ToDo", "Id", Integer.toString(id)));
 		List<ContentsEntity> existingTodoContents = existingToDo.getcontent();
@@ -79,6 +79,31 @@ public class ToDoService {
 		
 		toDoRepository.save(existingToDo);
 		return new ResponseEntity<String>("New Content Added!!", HttpStatus.CREATED);
+	}
+
+	public ResponseEntity<String> updateTodoContent(int id, ContentsEntity contentsEntity) {
+		
+		ToDoEntity existingToDo = toDoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ToDo", "Id", Integer.toString(id)));
+		List<ContentsEntity> existingTodoContents = existingToDo.getcontent();
+		
+		for(int i = 0 ; i <= existingTodoContents.size() ; i++)
+		{
+			ContentsEntity ce = existingTodoContents.get(i);
+			
+			if(ce.getId() == contentsEntity.getId())
+			{
+				if(contentsEntity.getItem() != null)
+					ce.setItem(contentsEntity.getItem());
+				
+				ce.setIsDone(contentsEntity.getIsDone());
+				break;
+			}
+		}
+		
+		existingToDo.setcontent(existingTodoContents);
+		toDoRepository.save(existingToDo);
+		
+		return new ResponseEntity<String>("ToDo Content Updated!!", HttpStatus.OK);
 	}
 
 }
