@@ -3,14 +3,14 @@ package com.hrushikesh.ToDo_Application.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.hrushikesh.ToDo_Application.Entity.ContentsEntity;
 import com.hrushikesh.ToDo_Application.Entity.ToDoEntity;
-import com.hrushikesh.ToDo_Application.Entity.ToDoEntityWrapper;
 import com.hrushikesh.ToDo_Application.Exception.ResourceNotFoundException;
+import com.hrushikesh.ToDo_Application.Repository.ContentsRepository;
 import com.hrushikesh.ToDo_Application.Repository.ToDoRepository;
 
 @Service
@@ -18,6 +18,9 @@ public class ToDoService {
 
 	@Autowired
 	ToDoRepository toDoRepository;
+	
+	@Autowired
+	ContentsRepository contentsRepository;
 
 	public ResponseEntity<String> addTodo(ToDoEntity toDoEntity) 
 	{
@@ -30,11 +33,63 @@ public class ToDoService {
 		return new ResponseEntity<>(toDoRepository.findAll(), HttpStatus.OK);
 	}
 
-	public ResponseEntity<ToDoEntityWrapper> viewTodo(int id) 
+	public ResponseEntity<ToDoEntity> viewTodo(int id) 
 	{
 		ToDoEntity toDoEntityFromDB =toDoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ToDo", "Id", Integer.toString(id)));
-		ToDoEntityWrapper toDoEntityWrapperDB = new ToDoEntityWrapper(toDoEntityFromDB.getTitle(), toDoEntityFromDB.getDescription(), toDoEntityFromDB.getcontent());
-		return new ResponseEntity<>(toDoEntityWrapperDB, HttpStatus.OK);
+		return new ResponseEntity<>(toDoEntityFromDB, HttpStatus.OK);
+	}
+
+	public ResponseEntity<String> updateTodo(int id, ToDoEntity toDoEntity)
+	{
+		ToDoEntity exitingToDo = toDoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ToDo", "Id", Integer.toString(id)));
+		
+		if(toDoEntity.getTitle() != null)
+			exitingToDo.setTitle(toDoEntity.getTitle());
+		
+		if(toDoEntity.getDescription() != null)
+			exitingToDo.setDescription(toDoEntity.getDescription());
+		
+		List<ContentsEntity> exstingItems = exitingToDo.getcontent();
+		List<ContentsEntity> newItems = toDoEntity.getcontent();
+		
+		newItems.forEach(e -> {
+			
+			exstingItems.forEach(e1 -> {
+				
+				if(e.getId() == e1.getId())
+				{
+					e1.setItem(e.getItem());
+					e1.setIsDone(e.getIsDone());
+				}
+			});
+		});
+		
+		System.out.println(exstingItems.toString());
+		toDoRepository.save(exitingToDo);
+		return new ResponseEntity<String>("ToDo updated!!", HttpStatus.OK);
+	}
+
+	public ResponseEntity<String> updateTodo(int id) {
+		
+		if(!toDoRepository.findById(id).isEmpty())
+			toDoRepository.deleteById(id);
+		else
+			throw new ResourceNotFoundException("ToDo", "Id", Integer.toString(id));
+			
+		return new ResponseEntity<String>("ToDo deleted!!", HttpStatus.OK);
+		
+	}
+
+	public ResponseEntity<String> updateToDoEntiry(int id, ContentsEntity contentsEntity) {
+
+		ToDoEntity existingToDo = toDoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ToDo", "Id", Integer.toString(id)));
+		List<ContentsEntity> existingTodoContents = existingToDo.getcontent();
+		
+		existingTodoContents.add(contentsEntity);
+		existingToDo.setcontent(existingTodoContents);
+		
+		toDoRepository.save(existingToDo);
+		return new ResponseEntity<String>("New Content Added!!", HttpStatus.CREATED);
 	}
 
 }

@@ -6,26 +6,26 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class ItemsEntity {
+public class ContentsEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String item;
-	private Boolean isDone;
+	private Boolean isDone = false;
 
-	public ItemsEntity() {
+	public ContentsEntity() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ItemsEntity(int id, String item, Boolean isDone) {
+	public ContentsEntity(int id, String item, Boolean isDone) {
 		super();
 		this.id = id;
 		this.item = item;
 		this.isDone = isDone;
 	}
-
+	
 	public int getId() {
 		return id;
 	}

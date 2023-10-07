@@ -23,14 +23,14 @@ public class ToDoEntity {
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "ToDo_content_Mapping", joinColumns = { @JoinColumn(name = "ToDo_Id") }, inverseJoinColumns = {
 			@JoinColumn(name = "content_Id") })
-	private List<ItemsEntity> content;
+	private List<ContentsEntity> content;
 
 	public ToDoEntity() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ToDoEntity(int id, String title, String description, List<ItemsEntity> content) {
+	public ToDoEntity(int id, String title, String description, List<ContentsEntity> content) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -62,11 +62,11 @@ public class ToDoEntity {
 		this.description = description;
 	}
 
-	public List<ItemsEntity> getcontent() {
+	public List<ContentsEntity> getcontent() {
 		return content;
 	}
 
-	public void setcontent(List<ItemsEntity> content) {
+	public void setcontent(List<ContentsEntity> content) {
 		this.content = content;
 	}
 
