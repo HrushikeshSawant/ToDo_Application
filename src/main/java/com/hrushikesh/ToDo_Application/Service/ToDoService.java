@@ -68,18 +68,7 @@ public class ToDoService {
 		toDoRepository.save(exitingToDo);
 		return new ResponseEntity<String>("ToDo updated!!", HttpStatus.OK);
 	}
-
-	public ResponseEntity<String> updateTodo(int id) {
-		
-		if(!toDoRepository.findById(id).isEmpty())
-			toDoRepository.deleteById(id);
-		else
-			throw new ResourceNotFoundException("ToDo", "Id", Integer.toString(id));
-			
-		return new ResponseEntity<String>("ToDo deleted!!", HttpStatus.OK);
-		
-	}
-
+	
 	public ResponseEntity<String> updateToDoEntiry(int id, ContentsEntity contentsEntity) {
 
 		ToDoEntity existingToDo = toDoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ToDo", "Id", Integer.toString(id)));

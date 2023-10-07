@@ -48,12 +48,6 @@ public class ToDoController {
 		return toDoService.updateTodo(id, toDoEntity);
 	}
 	
-	@DeleteMapping("delete/{id}")
-	public ResponseEntity<String> deleteTodo(@PathVariable int id)
-	{
-		return toDoService.updateTodo(id);
-	}
-	
 	@PutMapping("add-todo-content/{id}")
 	public ResponseEntity<String> updateToDoEntiry(@PathVariable int id, @RequestBody ContentsEntity contentsEntity)
 	{
