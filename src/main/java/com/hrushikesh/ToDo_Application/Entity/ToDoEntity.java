@@ -20,11 +20,11 @@ public class ToDoEntity {
 	private String title;
 	private String description;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinTable(name = "ToDo_content_Mapping", joinColumns = { @JoinColumn(name = "ToDo_Id") }, inverseJoinColumns = {
 			@JoinColumn(name = "content_Id") })
 	private List<ContentsEntity> content;
-
+	
 	public ToDoEntity() {
 		super();
 		// TODO Auto-generated constructor stub

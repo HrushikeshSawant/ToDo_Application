@@ -1,6 +1,7 @@
 package com.hrushikesh.ToDo_Application.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,17 +53,20 @@ public class ToDoService {
 		List<ContentsEntity> exstingItems = exitingToDo.getcontent();
 		List<ContentsEntity> newItems = toDoEntity.getcontent();
 		
-		newItems.forEach(e -> {
-			
-			exstingItems.forEach(e1 -> {
+		if(newItems != null)
+		{
+			newItems.forEach(e -> {
 				
-				if(e.getId() == e1.getId())
-				{
-					e1.setItem(e.getItem());
-					e1.setIsDone(e.getIsDone());
-				}
+				exstingItems.forEach(e1 -> {
+					
+					if(e.getId() == e1.getId())
+					{
+						e1.setItem(e.getItem());
+						e1.setIsDone(e.getIsDone());
+					}
+				});
 			});
-		});
+		}
 		
 		System.out.println(exstingItems.toString());
 		toDoRepository.save(exitingToDo);
@@ -104,6 +108,49 @@ public class ToDoService {
 		toDoRepository.save(existingToDo);
 		
 		return new ResponseEntity<String>("ToDo Content Updated!!", HttpStatus.OK);
+	}
+
+//	public ResponseEntity<String> deleteTodoContent(int todoId, int contentId) {
+//
+//		boolean counter = false;
+//		toDoRepository.findById(todoId).orElseThrow(() -> new ResourceNotFoundException("ToDo", "Id", Integer.toString(todoId)));
+//		
+//		List<ContentsEntity> existingTodoContents = existingToDo.getcontent();
+//		
+//		for(int i = 0 ; i <= existingTodoContents.size() ; i++)
+//		{
+//			ContentsEntity ce = existingTodoContents.get(i);
+//			
+//			if(ce.getId() == contentId)
+//			{
+//				
+//				
+//				contentsRepository.deleteById(contentId);
+//				counter = true;
+//				break;
+//			}
+//		}
+//		
+//		contentsRepository.findById(contentId).orElseThrow(() -> new ResourceNotFoundException("Content", "Id", Integer.toString(contentId)));
+//		contentsRepository.deleteById(contentId);
+//		
+//		System.out.println();
+//		
+//		if(!counter)
+//			throw new ResourceNotFoundException("Content", "ToDo Id: " + todoId + "and Content Id: ", Integer.toString(contentId));
+//		
+//		return new ResponseEntity<String>("Content deleted for ToDo Id: " + todoId, HttpStatus.OK);
+//	}
+
+	public ResponseEntity<String> deleteTodo(int id) throws Exception {
+
+		toDoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("ToDo", "Id", Integer.toString(id)));
+		toDoRepository.deleteById(id);
+		
+		if(!toDoRepository.findById(id).isEmpty())
+			throw new Exception("Todo not deleted!!");
+			
+		return new ResponseEntity<String>("Todo deleted!!", HttpStatus.OK);
 	}
 
 }

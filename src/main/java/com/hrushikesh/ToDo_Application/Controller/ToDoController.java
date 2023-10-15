@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hrushikesh.ToDo_Application.Entity.ContentsEntity;
@@ -28,6 +29,7 @@ public class ToDoController {
 	@PostMapping("add")
 	public ResponseEntity<String> addTodo(@RequestBody ToDoEntity toDoEntity)
 	{
+		System.out.println(toDoEntity.toString());
 		return toDoService.addTodo(toDoEntity);
 	}
 	
@@ -59,6 +61,19 @@ public class ToDoController {
 	public ResponseEntity<String> updateTodoContent(@PathVariable int id, @RequestBody ContentsEntity contentsEntity)
 	{
 		return toDoService.updateTodoContent(id, contentsEntity);
+	}
+	
+//	@DeleteMapping("delete-todo-content")
+//	public ResponseEntity<String> deleteTodoContent(@RequestParam int todoId, @RequestParam int contentId)
+//	{
+//		System.out.println(todoId + " " + contentId);
+//		return toDoService.deleteTodoContent(todoId, contentId);
+//	}
+	
+	@DeleteMapping("delete/{id}")
+	public ResponseEntity<String> deleteTodo(@PathVariable int id) throws Exception
+	{
+		return toDoService.deleteTodo(id);
 	}
 	
 }

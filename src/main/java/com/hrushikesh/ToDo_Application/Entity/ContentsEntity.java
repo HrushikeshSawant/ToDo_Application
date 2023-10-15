@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class ContentsEntity {
@@ -25,7 +27,7 @@ public class ContentsEntity {
 		this.item = item;
 		this.isDone = isDone;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -52,7 +54,7 @@ public class ContentsEntity {
 
 	@Override
 	public String toString() {
-		return "ItemsEntity [id=" + id + ", item=" + item + ", isDone=" + isDone + "]";
+		return "ContentsEntity [id=" + id + ", item=" + item + ", isDone=" + isDone + "]";
 	}
 
 }
