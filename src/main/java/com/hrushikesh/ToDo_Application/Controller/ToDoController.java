@@ -63,12 +63,12 @@ public class ToDoController {
 		return toDoService.updateTodoContent(id, contentsEntity);
 	}
 	
-//	@DeleteMapping("delete-todo-content")
-//	public ResponseEntity<String> deleteTodoContent(@RequestParam int todoId, @RequestParam int contentId)
-//	{
-//		System.out.println(todoId + " " + contentId);
-//		return toDoService.deleteTodoContent(todoId, contentId);
-//	}
+	@DeleteMapping("delete-todo-content")
+	public ResponseEntity<String> deleteTodoContent(@RequestParam int todoId, @RequestParam int contentId) throws Exception
+	{
+		System.out.println(todoId + " " + contentId);
+		return toDoService.deleteTodoContent(todoId, contentId);
+	}
 	
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<String> deleteTodo(@PathVariable int id) throws Exception
